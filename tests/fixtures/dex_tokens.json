@@ -1,0 +1,44 @@
+{
+  "pairs": [
+    {
+      "chainId": "solana",
+      "url": "https://dexscreener.com/solana/pair1",
+      "baseToken": {"address": "SOL_TOKEN_1", "symbol": "PEPE2", "name": "Pepe Two"},
+      "priceUsd": "0.00012",
+      "priceChange": {"m5": 2.5, "h1": 30.0, "h24": 120.0},
+      "volume": {"h1": 15000, "h24": 240000},
+      "liquidity": {"usd": 85000},
+      "pairCreatedAt": 1700000000000
+    },
+    {
+      "chainId": "solana",
+      "url": "https://dexscreener.com/solana/pair1b",
+      "baseToken": {"address": "SOL_TOKEN_1", "symbol": "PEPE2", "name": "Pepe Two"},
+      "priceUsd": "0.00012",
+      "priceChange": {"m5": 2.5, "h1": 30.0, "h24": 120.0},
+      "volume": {"h1": 5000, "h24": 40000},
+      "liquidity": {"usd": 20000},
+      "pairCreatedAt": 1700000000000
+    },
+    {
+      "chainId": "ethereum",
+      "url": "https://dexscreener.com/ethereum/pair2",
+      "baseToken": {"address": "ETH_TOKEN_9", "symbol": "MOON", "name": "Mooncoin"},
+      "priceUsd": "1.5",
+      "priceChange": {"m5": 0.0, "h1": 5.0, "h24": 10.0},
+      "volume": {"h1": 3000, "h24": 90000},
+      "liquidity": {"usd": 300000},
+      "pairCreatedAt": 1699000000000
+    },
+    {
+      "chainId": "fantom",
+      "url": "https://dexscreener.com/fantom/pair3",
+      "baseToken": {"address": "FTM_TOKEN", "symbol": "SKIP", "name": "Skip Me"},
+      "priceUsd": "0.5",
+      "priceChange": {"m5": 0.0, "h1": 1.0, "h24": 2.0},
+      "volume": {"h1": 100, "h24": 1000},
+      "liquidity": {"usd": 5000},
+      "pairCreatedAt": 1699000000000
+    }
+  ]
+}

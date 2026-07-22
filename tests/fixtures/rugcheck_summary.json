@@ -1,0 +1,8 @@
+{
+  "score": 1500,
+  "score_normalised": 82,
+  "risks": [
+    {"name": "Large amount of LP unlocked", "level": "danger", "score": 1000},
+    {"name": "Top holder high ownership", "level": "warn", "score": 500}
+  ]
+}

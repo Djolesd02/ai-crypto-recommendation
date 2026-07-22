@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RADAR — skener kripto signala</title>
+  <meta name="description" content="Top 10 najjačih kripto signala na tržištu, osveženo na 15 minuta." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sweepline" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <h1 class="wordmark">RADAR</h1>
+        <p class="tagline">Skener kripto signala</p>
+      </div>
+    </div>
+    <div class="pulse" id="status" data-state="loading">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span class="pulse-text">Uspostavljam vezu…</span>
+    </div>
+  </header>
+
+  <div class="deck">
+    <div class="deck-line">
+      <span class="deck-count"><span id="count">—</span> signala</span>
+      <span class="deck-sep">/</span>
+      <span class="deck-note">sortirano po jačini · osvežava se na 15 min</span>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span class="legend-label">Signal EQ</span>
+      <span><b>M</b> momentum</span>
+      <span><b>L</b> likvidnost</span>
+      <span><b>B</b> bezbednost</span>
+      <span><b>S</b> svežina</span>
+    </div>
+  </div>
+
+  <main id="list" class="list" aria-live="polite" aria-busy="true"></main>
+
+  <footer class="disclaimer">
+    <span class="disc-mark" aria-hidden="true"></span>
+    Radar čita javne podatke sa DexScreener-a i RugCheck-a. Nije investicioni savet —
+    kripto je visokorizičan i možeš izgubiti sve što uložiš. Proveri sam pre svake odluke.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
