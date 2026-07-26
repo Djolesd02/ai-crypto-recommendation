@@ -2,10 +2,10 @@
 
 # --- Scoring weights (must sum to 1.0) ---
 WEIGHTS = {
-    "momentum": 0.35,
-    "liquidity": 0.30,
+    "momentum": 0.45,
+    "liquidity": 0.25,
     "safety": 0.20,
-    "freshness": 0.15,
+    "freshness": 0.10,
 }
 
 TOP_N = 10
