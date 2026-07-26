@@ -17,8 +17,17 @@ MIN_VOLUME_H24 = 20_000.0
 # --- Normalization thresholds (see score.py) ---
 LIQ_GOOD_USD = 500_000.0        # liquidity considered "full marks"
 VOL_GOOD_USD = 1_000_000.0      # 24h volume considered "full marks"
-PRICE_CHANGE_CAP = 100.0        # cap 1h % change contribution at 100
-VOL_ACCEL_CAP = 3.0             # hourly-vs-daily volume ratio cap
+
+# --- Momentum shape (recency-first, catches blow-off tops) ---
+MOMENTUM_M5_FULL = 5.0          # +5% in 5min = full recent-climb marks
+MOMENTUM_H1_FULL = 50.0         # +50% in 1h = full short-climb marks
+MOMENTUM_M5_WEIGHT = 0.6        # how much the 5min window outweighs the 1h window
+REVERSAL_H1_MIN = 50.0          # 1h pumped past this + negative 5min = rolling over
+REVERSAL_M5_FULL = 5.0          # 5min of -5% => full reversal penalty
+SELL_PRESSURE_MIN = 0.55        # recent sells share above this starts a penalty
+SELL_PRESSURE_FULL = 0.80       # recent sells share at/above this = max penalty
+SELL_PRESSURE_FLOOR = 0.30      # heaviest sell pressure still leaves 30% of the score
+RECENT_DUMP_M5 = -12.0          # falling knife: down >12% in 5min -> hard drop
 
 # --- Risk thresholds on safety score (0-100, higher = safer) ---
 RISK_LOW_MIN = 70.0

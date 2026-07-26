@@ -36,6 +36,33 @@ def test_momentum_negative_price_change_not_negative():
     assert score.score_momentum(dumping) >= 0.0
 
 
+def test_momentum_penalizes_reversal():
+    climbing = make_candidate(price_change_h1=300.0, price_change_m5=3.0)
+    rolling = make_candidate(price_change_h1=300.0, price_change_m5=-4.0)
+    assert score.score_momentum(climbing) > score.score_momentum(rolling)
+    assert score.score_momentum(rolling) < 25.0
+
+
+def test_momentum_penalizes_sell_pressure():
+    balanced = make_candidate(price_change_h1=60.0, price_change_m5=3.0,
+                              buys_m5=100.0, sells_m5=100.0)
+    dumping = make_candidate(price_change_h1=60.0, price_change_m5=3.0,
+                             buys_m5=20.0, sells_m5=180.0)
+    assert score.score_momentum(dumping) < score.score_momentum(balanced)
+
+
+def test_blowoff_top_scores_low():
+    # HAPPY CAT style: huge 1h/24h pump, now negative 5min, heavy recent sells.
+    c = make_candidate(price_change_h1=306.0, price_change_h24=1037.0,
+                       price_change_m5=-3.53, buys_m5=40.0, sells_m5=160.0)
+    assert score.score_momentum(c) < 20.0
+
+
+def test_recent_dump_hard_filtered():
+    crashing = make_candidate(price_change_m5=-20.0)
+    assert score.passes_hard_filters(crashing, None) is False
+
+
 def test_liquidity_rises_with_liquidity_and_volume():
     thin = make_candidate(liquidity_usd=15000.0, volume_h24=25000.0)
     deep = make_candidate(liquidity_usd=400000.0, volume_h24=800000.0)

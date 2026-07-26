@@ -8,17 +8,32 @@ def clamp(x: float, lo: float, hi: float) -> float:
 
 
 def score_momentum(c: Candidate) -> float:
-    """Blend of 1h price change and volume acceleration (hourly vs daily rate)."""
-    price_part = clamp(c.price_change_h1, 0.0, config.PRICE_CHANGE_CAP)
-    price_part = price_part / config.PRICE_CHANGE_CAP * 100.0
+    """Recency-first climb, penalized when a pump is rolling over or being sold.
 
-    if c.volume_h24 > 0:
-        vol_accel = (c.volume_h1 * 24.0) / c.volume_h24
-    else:
-        vol_accel = 0.0
-    vol_part = clamp((vol_accel - 1.0) / (config.VOL_ACCEL_CAP - 1.0), 0.0, 1.0) * 100.0
+    Weights the last 5min above the last 1h (built for quick in-and-out trades),
+    then cuts the score when a big 1h pump turns negative on 5min (blow-off top)
+    or when recent transactions are dominated by sells.
+    """
+    m5n = clamp(c.price_change_m5 / config.MOMENTUM_M5_FULL, 0.0, 1.0)
+    h1n = clamp(c.price_change_h1 / config.MOMENTUM_H1_FULL, 0.0, 1.0)
+    w = config.MOMENTUM_M5_WEIGHT
+    score = (w * m5n + (1.0 - w) * h1n) * 100.0
 
-    return clamp(0.5 * price_part + 0.5 * vol_part, 0.0, 100.0)
+    # Reversal: pumped hard on 1h but now falling on 5min = the top is in.
+    if c.price_change_h1 >= config.REVERSAL_H1_MIN and c.price_change_m5 < 0:
+        score *= clamp(1.0 + c.price_change_m5 / config.REVERSAL_M5_FULL, 0.0, 1.0)
+
+    # Recent sell pressure: more sellers than buyers in the last 5min drags it down.
+    tot = c.buys_m5 + c.sells_m5
+    if tot > 0:
+        sell_share = c.sells_m5 / tot
+        if sell_share > config.SELL_PRESSURE_MIN:
+            span = config.SELL_PRESSURE_FULL - config.SELL_PRESSURE_MIN
+            over = clamp((sell_share - config.SELL_PRESSURE_MIN) / span, 0.0, 1.0)
+            score *= clamp(1.0 - over * (1.0 - config.SELL_PRESSURE_FLOOR),
+                           config.SELL_PRESSURE_FLOOR, 1.0)
+
+    return clamp(score, 0.0, 100.0)
 
 
 def score_liquidity(c: Candidate) -> float:
@@ -70,6 +85,8 @@ def passes_hard_filters(c: Candidate, rug: RugReport | None) -> bool:
     if c.liquidity_usd < config.MIN_LIQUIDITY_USD:
         return False
     if c.volume_h24 < config.MIN_VOLUME_H24:
+        return False
+    if c.price_change_m5 <= config.RECENT_DUMP_M5:  # falling knife right now
         return False
     if rug is not None and rug.danger:
         return False

@@ -8,7 +8,8 @@
       "priceChange": {"m5": 2.5, "h1": 30.0, "h24": 120.0},
       "volume": {"h1": 15000, "h24": 240000},
       "liquidity": {"usd": 85000},
-      "pairCreatedAt": 1700000000000
+      "pairCreatedAt": 1700000000000,
+      "txns": {"m5": {"buys": 12, "sells": 34}}
     },
     {
       "chainId": "solana",

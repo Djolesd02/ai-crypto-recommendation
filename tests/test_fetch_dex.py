@@ -21,6 +21,8 @@ def test_parse_pair_maps_fields():
     assert c.volume_h24 == 240000
     assert c.liquidity_usd == 85000
     assert c.pair_created_at == 1700000000000
+    assert c.buys_m5 == 12
+    assert c.sells_m5 == 34
 
 
 def test_best_candidates_dedupes_by_highest_liquidity():
@@ -43,3 +45,5 @@ def test_parse_pair_handles_missing_fields():
     assert c.price_usd == 0.0
     assert c.liquidity_usd == 0.0
     assert c.pair_created_at == 0
+    assert c.buys_m5 == 0.0
+    assert c.sells_m5 == 0.0
