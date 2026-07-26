@@ -26,7 +26,6 @@ def parse_pair(pair: dict) -> Candidate:
     change = pair.get("priceChange", {}) or {}
     volume = pair.get("volume", {}) or {}
     liquidity = pair.get("liquidity", {}) or {}
-    txns_m5 = (pair.get("txns", {}) or {}).get("m5", {}) or {}
     return Candidate(
         chain=pair.get("chainId", ""),
         address=base.get("address", ""),
@@ -41,8 +40,6 @@ def parse_pair(pair: dict) -> Candidate:
         liquidity_usd=_f(liquidity.get("usd")),
         pair_created_at=int(pair.get("pairCreatedAt", 0) or 0),
         dex_url=pair.get("url", ""),
-        buys_m5=_f(txns_m5.get("buys")),
-        sells_m5=_f(txns_m5.get("sells")),
     )
 
 

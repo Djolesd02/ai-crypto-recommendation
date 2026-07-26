@@ -17,8 +17,6 @@ class Candidate:
     liquidity_usd: float
     pair_created_at: int   # unix ms
     dex_url: str
-    buys_m5: float = 0.0    # recent buy transactions (last 5 min)
-    sells_m5: float = 0.0   # recent sell transactions (last 5 min)
 
 
 @dataclass
